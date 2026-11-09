@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-client
+  labels:
+    app: account-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: account-client
+  template:
+    metadata:
+      labels:
+        app: account-client
+    spec:
+      containers:
+        - name: account-client
+          image: image-registry.openshift-image-registry.svc:5000/<NAMESPACE>/account-client:1.0.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: account-client-db
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: account-client-db
+                  key: password
+          envFrom:
+            - configMapRef:
+                name: account-client-config
+          resources:
+            requests: { cpu: 250m, memory: 512Mi }
+            limits:   { cpu: "1",  memory: 1Gi }
+          readinessProbe:
+            tcpSocket: { port: 8080 }
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket: { port: 8080 }
+            initialDelaySeconds: 40
+            periodSeconds: 20

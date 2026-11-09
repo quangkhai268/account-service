@@ -1,0 +1,15 @@
+# Chỉ cần nếu client nằm NGOÀI cluster. Client cùng cluster gọi thẳng qua Service:
+#   http://account-server:8081/api/v1/accounts/getAccountList
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: account-server
+spec:
+  to:
+    kind: Service
+    name: account-server
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

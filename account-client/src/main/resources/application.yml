@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: account-client
+  datasource:
+    url: jdbc:postgresql://localhost:5432/account_client
+    username: ${DB_USER:account_cli}
+    password: ${DB_PASSWORD:change_me}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none   # schema tạo bằng sql/postgres-schema.sql
+
+account:
+  api:
+    url: http://localhost:8081/api/v1/accounts/getAccountList
+    app-code: APP01
+    connect-timeout: 3s
+    read-timeout: 10s

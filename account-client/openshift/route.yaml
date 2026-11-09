@@ -1,0 +1,14 @@
+# Chỉ cần nếu muốn kích hoạt GET /client/accounts từ ngoài cluster.
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: account-client
+spec:
+  to:
+    kind: Service
+    name: account-client
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

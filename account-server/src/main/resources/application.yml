@@ -1,0 +1,15 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: account-server
+  datasource:
+    url: jdbc:postgresql://localhost:5432/account_server
+    username: ${DB_USER:account_srv}
+    password: ${DB_PASSWORD:change_me}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none   # schema tạo bằng sql/postgres-schema.sql
